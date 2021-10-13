@@ -111,9 +111,10 @@ class Animate {
     static START_X = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_X_START_OFFSET);
     static START_Y = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_Y_START_OFFSET);
     static PATH_COLOR = 'rgba(153,153,153,0.18)'
+    static START_RANDOM_COLOR = this.randomColor();
     static START_OPTIONS = {
-        fill: 'yellow',
-        stroke: 'yellow'
+        fill: Animate.START_RANDOM_COLOR,
+        stroke: Animate.START_RANDOM_COLOR
     };
 
     svg = null;
@@ -126,6 +127,19 @@ class Animate {
         this.svg = svg;
         this.circle = new Circle(Animate.START_X, Animate.START_Y, Animate.CIRCLE_RADIUS, Animate.START_OPTIONS);
         this.svg.appendChild(this.circle.getNode());
+        this.randomStart(this.circle);
+    }
+
+    randomStart(circle) {
+        const minX = Animate.CIRCLE_RADIUS + 1;
+        const minY = Animate.CIRCLE_RADIUS + 1;
+        const maxX = this.svg.clientWidth - Animate.CIRCLE_RADIUS - Animate.CIRCLE_X_START_OFFSET;
+        const maxY = this.svg.clientHeight - Animate.CIRCLE_RADIUS - Animate.CIRCLE_Y_START_OFFSET;
+        const x = minX + (Math.random()  * (maxX - minX)) ;
+        const y = minY + (Math.random()  * (maxY - minY)) ;
+
+        circle.x(x)
+        circle.y(y)
     }
 
     start() {
@@ -144,13 +158,13 @@ class Animate {
 
         if (c.x() <= xLowerLimit || c.x() >= xUpperLimit) {
             this.xSpeed = this.xSpeed * -1;
-            const color = this.randomColor();
+            const color = Animate.randomColor();
             c.opts({fill: color, stroke: color});
         }
 
         if (c.y() <= yLowerLimit || c.y() >= yUpperLimit) {
             this.ySpeed = this.ySpeed * -1;
-            const color = this.randomColor();
+            const color = Animate.randomColor();
             c.opts({fill: color, stroke: color});
         }
 
@@ -164,7 +178,7 @@ class Animate {
         clearInterval(this.interval);
     }
 
-    randomColor() {
+    static randomColor() {
         const r = Math.abs(Math.random() * 255);
         const g = Math.abs(Math.random() * 255);
         const b = Math.abs(Math.random() * 255);
