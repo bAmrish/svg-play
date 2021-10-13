@@ -1,4 +1,27 @@
-// variable for the namespace
+class Point {
+    x = 0;
+    y = 0;
+    radius = 1;
+    circle = null;
+    options = {
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 1
+    }
+
+    constructor(x, y, color = 'black') {
+        this.x = x;
+        this.y = y;
+        this.options.fill = color;
+        this.options.stroke = color;
+        this.circle = new Circle(this.x, this.y, this.radius, this.options);
+    }
+
+    draw(svg) {
+        svg.appendChild(this.circle.getNode());
+    }
+}
+
 class Circle {
     svgns = "http://www.w3.org/2000/svg";
 
@@ -87,6 +110,7 @@ class Animate {
     static SPEED = 2;
     static START_X = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_X_START_OFFSET);
     static START_Y = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_Y_START_OFFSET);
+    static PATH_COLOR = 'rgba(153,153,153,0.18)'
     static START_OPTIONS = {
         fill: 'yellow',
         stroke: 'yellow'
@@ -96,7 +120,6 @@ class Animate {
     xSpeed = Animate.SPEED;
     ySpeed = Animate.SPEED;
     interval = 0;
-    count = 0;
     circle;
 
     constructor(svg) {
@@ -129,11 +152,12 @@ class Animate {
             this.ySpeed = this.ySpeed * -1;
             const color = this.randomColor();
             c.opts({fill: color, stroke: color});
-
         }
 
         c.x(c.x() + this.xSpeed)
         c.y(c.y() + this.ySpeed)
+        const p = new Point(c.x(), c.y(), Animate.PATH_COLOR);
+        p.draw(this.svg);
     }
 
     stop() {
@@ -147,14 +171,16 @@ class Animate {
         return `rgb(${r}, ${g}, ${b})`
     }
 }
+
+
 let started = false;
 let animate = null;
 
-window.addEventListener('click', function (){
-    if(animate && !started) {
+window.addEventListener('click', function () {
+    if (animate && !started) {
         animate.start();
         started = true;
-    } else if(animate && started) {
+    } else if (animate && started) {
         animate.stop();
         started = false;
     }
