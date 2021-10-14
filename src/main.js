@@ -118,8 +118,10 @@ class Animate {
     };
 
     svg = null;
-    xSpeed = Animate.SPEED;
-    ySpeed = Animate.SPEED;
+    r = Animate.CIRCLE_RADIUS;
+    speed = Animate.SPEED;
+    xDirection = 1;
+    yDirection = 1;
     interval = 0;
     circle;
 
@@ -131,12 +133,12 @@ class Animate {
     }
 
     randomStart(circle) {
-        const minX = Animate.CIRCLE_RADIUS + 1;
-        const minY = Animate.CIRCLE_RADIUS + 1;
-        const maxX = this.svg.clientWidth - Animate.CIRCLE_RADIUS - Animate.CIRCLE_X_START_OFFSET;
-        const maxY = this.svg.clientHeight - Animate.CIRCLE_RADIUS - Animate.CIRCLE_Y_START_OFFSET;
-        const x = minX + (Math.random()  * (maxX - minX)) ;
-        const y = minY + (Math.random()  * (maxY - minY)) ;
+        const minX = this.r + 1;
+        const minY = this.r + 1;
+        const maxX = this.svg.clientWidth - this.r - Animate.CIRCLE_X_START_OFFSET;
+        const maxY = this.svg.clientHeight - this.r - Animate.CIRCLE_Y_START_OFFSET;
+        const x = minX + (Math.random() * (maxX - minX));
+        const y = minY + (Math.random() * (maxY - minY));
 
         circle.x(x)
         circle.y(y)
@@ -151,31 +153,42 @@ class Animate {
     moveCircle() {
         const A = Animate;
         const c = this.circle;
-        const xLowerLimit = A.CIRCLE_RADIUS;
-        const yLowerLimit = A.CIRCLE_RADIUS;
-        const xUpperLimit = this.svg.clientWidth - A.CIRCLE_RADIUS - A.CIRCLE_X_START_OFFSET;
-        const yUpperLimit = this.svg.clientHeight - A.CIRCLE_RADIUS - A.CIRCLE_Y_START_OFFSET;
+        const xLowerLimit = this.r;
+        const yLowerLimit = this.r;
+        const xUpperLimit = this.svg.clientWidth - this.r - A.CIRCLE_X_START_OFFSET;
+        const yUpperLimit = this.svg.clientHeight - this.r - A.CIRCLE_Y_START_OFFSET;
 
         if (c.x() <= xLowerLimit || c.x() >= xUpperLimit) {
-            this.xSpeed = this.xSpeed * -1;
+            this.xDirection = this.xDirection * -1;
             const color = Animate.randomColor();
             c.opts({fill: color, stroke: color});
         }
 
         if (c.y() <= yLowerLimit || c.y() >= yUpperLimit) {
-            this.ySpeed = this.ySpeed * -1;
+            this.yDirection = this.yDirection * -1;
             const color = Animate.randomColor();
             c.opts({fill: color, stroke: color});
         }
 
-        c.x(c.x() + this.xSpeed)
-        c.y(c.y() + this.ySpeed)
+        c.x(c.x() + this.speed * this.xDirection)
+        c.y(c.y() + this.speed * this.yDirection)
         const p = new Point(c.x(), c.y(), Animate.PATH_COLOR);
         p.draw(this.svg);
     }
 
     stop() {
         clearInterval(this.interval);
+    }
+
+    setSpeed(val) {
+        this.speed = val;
+        return this;
+    }
+
+    setSize(val) {
+        this.r = val;
+        this.circle.radius(this.r);
+        return this;
     }
 
     static randomColor() {
@@ -186,23 +199,49 @@ class Animate {
     }
 }
 
+class Controls {
+    play;
+    playing = false;
 
-let started = false;
-let animate = null;
-
-window.addEventListener('click', function () {
-    if (animate && !started) {
-        animate.start();
-        started = true;
-    } else if (animate && started) {
-        animate.stop();
-        started = false;
+    constructor(animate) {
+        this.animate = animate;
     }
-});
+
+    create() {
+        this.play = document.getElementById("play");
+        this.speed = document.getElementById("speed");
+        this.size = document.getElementById("size");
+
+        this.speed.value = this.animate.speed;
+        this.size.value = this.animate.r;
+
+        this.play.onclick = () => {
+            if (!this.playing) {
+                this.animate.start();
+                this.play.innerHTML = "Stop"
+                this.playing = true;
+            } else {
+                this.animate.stop();
+                this.play.innerHTML = "Start"
+                this.playing = false;
+            }
+        }
+
+        this.speed.onchange = (event) => {
+            this.animate.setSpeed(event.target.value);
+        }
+
+        this.size.onchange = (event) => {
+            this.animate.setSize(event.target.value);
+        }
+    }
+}
 
 window.addEventListener('load', () => {
-    const svg = document.getElementById("svg");
-    animate = new Animate(svg);
+    const svg = document.getElementById("canvas");
+    const animate = new Animate(svg);
+    const controls = new Controls(animate);
+    controls.create();
 });
 
 

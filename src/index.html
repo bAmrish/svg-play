@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Play</title>
+    <script src="main.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+          integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body style="text-align: center">
+<div class="main-container">
+    <h1 class="heading">Bouncy Ball!</h1>
+    <div class="message">Click anywhere to start and stop the ball.</div>
+    <svg id="canvas"></svg>
+    <div id="controls">
+            <button id="play" class="pure-button pure-button-primary">
+                Start
+            </button>
+            <div class="slider">
+                <label for="speed">Speed</label>
+                <input type="range" list="speed-ticks" id="speed" min="1" max="10"/>
+                <datalist id="speed-ticks">
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                    <option value="5"></option>
+                    <option value="6"></option>
+                    <option value="7"></option>
+                    <option value="8"></option>
+                    <option value="9"></option>
+                </datalist>
+            </div>
+            <div class="slider">
+                <label for="size">Size</label>
+                <input type="range" id="size" min="10" max="100"/>
+            </div>
+    </div>
+</div>
+</body>
+</html>
