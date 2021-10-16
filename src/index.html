@@ -15,28 +15,35 @@
     <div class="message">Click anywhere to start and stop the ball.</div>
     <svg id="canvas"></svg>
     <div id="controls">
-            <button id="play" class="pure-button pure-button-primary">
-                Start
-            </button>
-            <div class="slider">
-                <label for="speed">Speed</label>
-                <input type="range" list="speed-ticks" id="speed" min="1" max="10"/>
-                <datalist id="speed-ticks">
-                    <option value="1"></option>
-                    <option value="2"></option>
-                    <option value="3"></option>
-                    <option value="4"></option>
-                    <option value="5"></option>
-                    <option value="6"></option>
-                    <option value="7"></option>
-                    <option value="8"></option>
-                    <option value="9"></option>
-                </datalist>
-            </div>
-            <div class="slider">
-                <label for="size">Size</label>
-                <input type="range" id="size" min="10" max="100"/>
-            </div>
+        <button id="play" class="pure-button pure-button-primary">
+            Start
+        </button>
+        <div class="slider">
+            <label for="speed">Speed</label>
+            <input type="range" list="speed-ticks" id="speed" min="1" max="10"/>
+            <datalist id="speed-ticks">
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="7"></option>
+                <option value="8"></option>
+                <option value="9"></option>
+            </datalist>
+        </div>
+        <div class="slider">
+            <label for="size">Size</label>
+            <input type="range" id="size" min="10" max="100"/>
+        </div>
+        <div class="color-picker">
+            <label for="color">Color</label>
+            <input type="color" id="color">
+        </div>
+        <button id="clear" class="pure-button">
+            Clear
+        </button>
     </div>
 </div>
 </body>

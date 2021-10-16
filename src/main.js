@@ -20,6 +20,15 @@ class Point {
     draw(svg) {
         svg.appendChild(this.circle.getNode());
     }
+
+    color(val) {
+        if(!val) {
+            return this.options.fill;
+        }
+        this.options.fill = val;
+        this.options.stroke = val;
+        this.circle.options(this.options);
+    }
 }
 
 class Circle {
@@ -28,10 +37,11 @@ class Circle {
     cx = 0;
     cy = 0;
     r = 0;
+    fill = 'black';
     node = null;
     options = {
-        fill: 'black',
-        stroke: 'black',
+        fill: this.fill,
+        stroke: this.fill,
         strokeWidth: 1
     }
 
@@ -89,6 +99,20 @@ class Circle {
         return this;
     }
 
+    color(val) {
+        if (!val) {
+            return this.fill
+        }
+        this.fill = val;
+        this.options = {
+            fill: this.fill,
+            stroke: this.fill,
+            strokeWidth: 1
+        }
+        this.#applyOptions();
+        return this;
+    }
+
     opts(val) {
         if (!val) {
             return this.options;
@@ -110,13 +134,8 @@ class Animate {
     static SPEED = 2;
     static START_X = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_X_START_OFFSET);
     static START_Y = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_Y_START_OFFSET);
-    static PATH_COLOR = 'rgba(153,153,153,0.18)'
-    static START_RANDOM_COLOR = this.randomColor();
-    static START_OPTIONS = {
-        fill: Animate.START_RANDOM_COLOR,
-        stroke: Animate.START_RANDOM_COLOR
-    };
 
+    randomColor = false;
     svg = null;
     r = Animate.CIRCLE_RADIUS;
     speed = Animate.SPEED;
@@ -124,10 +143,12 @@ class Animate {
     yDirection = 1;
     interval = 0;
     circle;
+    color = 'black';
+    points = [];
 
     constructor(svg) {
         this.svg = svg;
-        this.circle = new Circle(Animate.START_X, Animate.START_Y, Animate.CIRCLE_RADIUS, Animate.START_OPTIONS);
+        this.circle = new Circle(Animate.START_X, Animate.START_Y, Animate.CIRCLE_RADIUS, this.color);
         this.svg.appendChild(this.circle.getNode());
         this.randomStart(this.circle);
     }
@@ -160,19 +181,27 @@ class Animate {
 
         if (c.x() <= xLowerLimit || c.x() >= xUpperLimit) {
             this.xDirection = this.xDirection * -1;
-            const color = Animate.randomColor();
-            c.opts({fill: color, stroke: color});
+
+            if (this.randomColor) {
+                this.color = Animate.randomColor();
+            }
+
+            c.opts({fill: this.color, stroke: this.color});
         }
 
         if (c.y() <= yLowerLimit || c.y() >= yUpperLimit) {
             this.yDirection = this.yDirection * -1;
-            const color = Animate.randomColor();
-            c.opts({fill: color, stroke: color});
+
+            if (this.randomColor) {
+                this.color = Animate.randomColor();
+            }
+            c.opts({fill: this.color, stroke: this.color});
         }
 
         c.x(c.x() + this.speed * this.xDirection)
         c.y(c.y() + this.speed * this.yDirection)
-        const p = new Point(c.x(), c.y(), Animate.PATH_COLOR);
+        const p = new Point(c.x(), c.y(), this.color);
+        this.points.push(p);
         p.draw(this.svg);
     }
 
@@ -189,6 +218,21 @@ class Animate {
         this.r = val;
         this.circle.radius(this.r);
         return this;
+    }
+
+    setColor(val) {
+        this.color = val;
+        this.circle.color(this.color);
+    }
+
+    clear() {
+        console.log("clear");
+        console.log(this.points.length);
+        this.points.forEach((point => {
+            this.svg.removeChild(point.circle.getNode());
+            point = null;
+        }));
+        this.points = [];
     }
 
     static randomColor() {
@@ -211,6 +255,8 @@ class Controls {
         this.play = document.getElementById("play");
         this.speed = document.getElementById("speed");
         this.size = document.getElementById("size");
+        this.color = document.getElementById("color");
+        this.clear = document.getElementById("clear");
 
         this.speed.value = this.animate.speed;
         this.size.value = this.animate.r;
@@ -234,6 +280,14 @@ class Controls {
         this.size.onchange = (event) => {
             this.animate.setSize(event.target.value);
         }
+
+        this.color.addEventListener("input", (event) => {
+            this.animate.setColor(event.target.value);
+        }, false);
+
+        this.clear.addEventListener("click", () => {
+            this.animate.clear();
+        }, false);
     }
 }
 
