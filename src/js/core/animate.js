@@ -1,6 +1,7 @@
 import {Circle} from "./circle.js";
 import {Point} from "./point.js";
 
+// define default values
 const CIRCLE_RADIUS = 30;
 const CIRCLE_X_START_OFFSET = 1;
 const CIRCLE_Y_START_OFFSET = 1;
@@ -105,13 +106,20 @@ export class Animate {
     }
 
     clear() {
-        console.log("clear");
-        console.log(this.points.length);
         this.points.forEach((point => {
             this.svg.removeChild(point.getNode());
             point = null;
         }));
         this.points = [];
+    }
+
+    randomizeColor(val) {
+        if (val === undefined) {
+            return this.randomColor;
+        }
+
+        this.randomColor = val;
+        return this;
     }
 
 }

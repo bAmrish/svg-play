@@ -40,6 +40,15 @@
     margin-left: 20px;
 }
 
+#controls .checkbox {
+    margin-left: 20px;
+}
+
 #clear {
     margin-left: 20px;
+}
+
+label.disabled{
+    cursor: not-allowed;
+    color: #cad2d3;
 }

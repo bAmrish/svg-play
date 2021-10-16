@@ -9,6 +9,30 @@ const rgbToHex = (rgb) => {
     }
 }
 
+const addClass = (element, className) => {
+    element.className += className;
+}
+
+const removeClass = (element, className) => {
+    element.className = element.className.replace(className, "");
+}
+
+
+const getLabelFor = (input) => {
+    const children = input.parentElement.children;
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if (child.nodeName.toLowerCase() === 'label') {
+            const forInput = child.getAttribute('for')
+            console.log(forInput);
+            if (forInput === input.getAttribute('id') ||
+                forInput === input.getAttribute('name')) {
+                return child;
+            }
+        }
+    }
+}
+
 export class Controls {
     playing = false;
 
@@ -21,12 +45,19 @@ export class Controls {
         const speed = document.getElementById('speed');
         const size = document.getElementById('size');
         const color = document.getElementById('color');
+        const colorLabel = getLabelFor(color);
         const clear = document.getElementById('clear');
+        const randomColor = document.getElementById('random-color');
 
         color.value = rgbToHex(this.animate.color);
 
         speed.value = this.animate.speed;
         size.value = this.animate.r;
+        randomColor.checked = this.animate.randomizeColor();
+        if (randomColor.checked) {
+            color.disabled = true;
+            addClass(colorLabel, 'disabled');
+        }
 
         play.addEventListener('click', () => {
             if (!this.playing) {
@@ -56,5 +87,16 @@ export class Controls {
         clear.addEventListener('click', () => {
             this.animate.clear();
         }, false);
+
+        randomColor.addEventListener('click', (event) => {
+            const randomized = event.target.checked
+            this.animate.randomizeColor(randomized);
+            color.disabled = !!randomized;
+            if(randomized) {
+                addClass(colorLabel, 'disabled');
+            } else {
+                removeClass(colorLabel, 'disabled');
+            }
+        })
     }
 }

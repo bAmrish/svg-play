@@ -14,7 +14,7 @@
     <h1 class="heading">Bouncy Ball!</h1>
     <div class="message">Click anywhere to start and stop the ball.</div>
     <svg id="canvas"></svg>
-    <div id="controls">
+    <div id="controls" class="pure-form">
         <button id="play" class="pure-button pure-button-primary">
             Start
         </button>
@@ -40,6 +40,12 @@
         <div class="color-picker">
             <label for="color">Color</label>
             <input type="color" id="color">
+        </div>
+        <div class="checkbox">
+            <label for="random-color" class="pure-checkbox">
+                <input type="checkbox" id="random-color">
+                Random on Bounce
+            </label>
         </div>
         <button id="clear" class="pure-button">
             Clear
