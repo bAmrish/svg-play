@@ -1,5 +1,5 @@
 import {Circle} from "./circle.js";
-import {Point} from "./point.js";
+import {Path} from "./path.js";
 
 // define default values
 const CIRCLE_RADIUS = 30;
@@ -26,14 +26,18 @@ export class Animate {
     yDirection = 1;
     interval = 0;
     circle;
+    currentPath;
     color = 'black';
-    points = [];
+    paths = [];
 
     constructor(svg) {
         this.svg = svg;
         this.circle = new Circle(START_X, START_Y, CIRCLE_RADIUS, this.color);
         this.svg.appendChild(this.circle.getNode());
         this.randomStart(this.circle);
+        this.currentPath = new Path(this.circle.x(), this.circle.y(), this.color);
+        this.currentPath.draw(this.svg);
+        this.paths.push(this.currentPath);
     }
 
     randomStart(circle) {
@@ -61,18 +65,22 @@ export class Animate {
         const yLowerLimit = this.r;
         const xUpperLimit = this.svg.clientWidth - this.r - CIRCLE_X_START_OFFSET;
         const yUpperLimit = this.svg.clientHeight - this.r - CIRCLE_Y_START_OFFSET;
+        let bounced = false;
 
         if (c.x() <= xLowerLimit || c.x() >= xUpperLimit) {
             this.xDirection = this.xDirection * -1;
-
-            if (this.randomColor) {
-                this.setColor(getRandomColor());
-            }
+            bounced = true;
         }
 
         if (c.y() <= yLowerLimit || c.y() >= yUpperLimit) {
             this.yDirection = this.yDirection * -1;
+            bounced = true;
+        }
 
+        if (bounced) {
+            this.currentPath = new Path(c.x(), c.y(), this.color);
+            this.currentPath.draw(this.svg);
+            this.paths.push(this.currentPath);
             if (this.randomColor) {
                 this.setColor(getRandomColor());
             }
@@ -80,9 +88,8 @@ export class Animate {
 
         c.x(c.x() + this.speed * this.xDirection)
         c.y(c.y() + this.speed * this.yDirection)
-        const p = new Point(c.x(), c.y(), this.color);
-        this.points.push(p);
-        p.draw(this.svg);
+
+        this.currentPath.to(c.x(), c.y());
     }
 
     stop() {
@@ -103,14 +110,15 @@ export class Animate {
     setColor(val) {
         this.color = val;
         this.circle.color(this.color);
+        this.currentPath.color(this.color);
     }
 
     clear() {
-        this.points.forEach((point => {
-            this.svg.removeChild(point.getNode());
-            point = null;
+        this.paths.forEach((path => {
+            this.svg.removeChild(path.getNode());
+            path = null;
         }));
-        this.points = [];
+        this.paths = [];
     }
 
     randomizeColor(val) {
