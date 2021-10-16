@@ -1,18 +1,26 @@
 import {Circle} from "./circle.js";
 import {Point} from "./point.js";
 
-export class Animate {
-    static CIRCLE_RADIUS = 30;
-    static CIRCLE_X_START_OFFSET = 1;
-    static CIRCLE_Y_START_OFFSET = 1;
-    static SPEED = 2;
-    static START_X = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_X_START_OFFSET);
-    static START_Y = (Animate.CIRCLE_RADIUS * 2 + Animate.CIRCLE_Y_START_OFFSET);
+const CIRCLE_RADIUS = 30;
+const CIRCLE_X_START_OFFSET = 1;
+const CIRCLE_Y_START_OFFSET = 1;
+const SPEED = 2;
+const START_X = (CIRCLE_RADIUS * 2 + CIRCLE_X_START_OFFSET);
+const START_Y = (CIRCLE_RADIUS * 2 + CIRCLE_Y_START_OFFSET);
 
-    randomColor = false;
+const getRandomColor = () => {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`
+}
+
+export class Animate {
+
+    randomColor = true;
     svg = null;
-    r = Animate.CIRCLE_RADIUS;
-    speed = Animate.SPEED;
+    r = CIRCLE_RADIUS;
+    speed = SPEED;
     xDirection = 1;
     yDirection = 1;
     interval = 0;
@@ -22,7 +30,7 @@ export class Animate {
 
     constructor(svg) {
         this.svg = svg;
-        this.circle = new Circle(Animate.START_X, Animate.START_Y, Animate.CIRCLE_RADIUS, this.color);
+        this.circle = new Circle(START_X, START_Y, CIRCLE_RADIUS, this.color);
         this.svg.appendChild(this.circle.getNode());
         this.randomStart(this.circle);
     }
@@ -30,13 +38,14 @@ export class Animate {
     randomStart(circle) {
         const minX = this.r + 1;
         const minY = this.r + 1;
-        const maxX = this.svg.clientWidth - this.r - Animate.CIRCLE_X_START_OFFSET;
-        const maxY = this.svg.clientHeight - this.r - Animate.CIRCLE_Y_START_OFFSET;
+        const maxX = this.svg.clientWidth - this.r - CIRCLE_X_START_OFFSET;
+        const maxY = this.svg.clientHeight - this.r - CIRCLE_Y_START_OFFSET;
         const x = minX + (Math.random() * (maxX - minX));
         const y = minY + (Math.random() * (maxY - minY));
-
+        this.color = getRandomColor();
         circle.x(x)
         circle.y(y)
+        circle.color(this.color);
     }
 
     start() {
@@ -46,30 +55,26 @@ export class Animate {
     }
 
     moveCircle() {
-        const A = Animate;
         const c = this.circle;
         const xLowerLimit = this.r;
         const yLowerLimit = this.r;
-        const xUpperLimit = this.svg.clientWidth - this.r - A.CIRCLE_X_START_OFFSET;
-        const yUpperLimit = this.svg.clientHeight - this.r - A.CIRCLE_Y_START_OFFSET;
+        const xUpperLimit = this.svg.clientWidth - this.r - CIRCLE_X_START_OFFSET;
+        const yUpperLimit = this.svg.clientHeight - this.r - CIRCLE_Y_START_OFFSET;
 
         if (c.x() <= xLowerLimit || c.x() >= xUpperLimit) {
             this.xDirection = this.xDirection * -1;
 
             if (this.randomColor) {
-                this.color = Animate.randomColor();
+                this.setColor(getRandomColor());
             }
-
-            c.opts({fill: this.color, stroke: this.color});
         }
 
         if (c.y() <= yLowerLimit || c.y() >= yUpperLimit) {
             this.yDirection = this.yDirection * -1;
 
             if (this.randomColor) {
-                this.color = Animate.randomColor();
+                this.setColor(getRandomColor());
             }
-            c.opts({fill: this.color, stroke: this.color});
         }
 
         c.x(c.x() + this.speed * this.xDirection)
@@ -103,16 +108,10 @@ export class Animate {
         console.log("clear");
         console.log(this.points.length);
         this.points.forEach((point => {
-            this.svg.removeChild(point.circle.getNode());
+            this.svg.removeChild(point.getNode());
             point = null;
         }));
         this.points = [];
     }
 
-    static randomColor() {
-        const r = Math.abs(Math.random() * 255);
-        const g = Math.abs(Math.random() * 255);
-        const b = Math.abs(Math.random() * 255);
-        return `rgb(${r}, ${g}, ${b})`
-    }
 }

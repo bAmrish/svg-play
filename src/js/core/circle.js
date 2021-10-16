@@ -1,6 +1,6 @@
-export class Circle {
-    svgns = "http://www.w3.org/2000/svg";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
+export class Circle {
     cx = 0;
     cy = 0;
     r = 0;
@@ -21,7 +21,7 @@ export class Circle {
     }
 
     #create() {
-        this.node = document.createElementNS(this.svgns, "circle");
+        this.node = document.createElementNS(SVG_NS, "circle");
         this.node.setAttribute("cx", this.cx);
         this.node.setAttribute("cy", this.cy);
         this.node.setAttribute("r", this.r);

@@ -1,5 +1,15 @@
+const rgbToHex = (rgb) => {
+    const pattern = /^rgb\((\d+), (\d+), (\d+)\)/;
+    const matches = rgb.match(pattern);
+    if (matches.length === 4) {
+        const r = parseInt(matches[1], 10).toString(16);
+        const g = parseInt(matches[2], 10).toString(16);
+        const b = parseInt(matches[3], 10).toString(16);
+        return `#${r}${g}${b}`;
+    }
+}
+
 export class Controls {
-    play;
     playing = false;
 
     constructor(animate) {
@@ -7,40 +17,43 @@ export class Controls {
     }
 
     create() {
-        this.play = document.getElementById("play");
-        this.speed = document.getElementById("speed");
-        this.size = document.getElementById("size");
-        this.color = document.getElementById("color");
-        this.clear = document.getElementById("clear");
+        const play = document.getElementById('play');
+        const speed = document.getElementById('speed');
+        const size = document.getElementById('size');
+        const color = document.getElementById('color');
+        const clear = document.getElementById('clear');
 
-        this.speed.value = this.animate.speed;
-        this.size.value = this.animate.r;
+        color.value = rgbToHex(this.animate.color);
 
-        this.play.onclick = () => {
+        speed.value = this.animate.speed;
+        size.value = this.animate.r;
+
+        play.addEventListener('click', () => {
             if (!this.playing) {
                 this.animate.start();
-                this.play.innerHTML = "Stop"
+                play.innerHTML = 'Stop'
                 this.playing = true;
             } else {
                 this.animate.stop();
-                this.play.innerHTML = "Start"
+                play.innerHTML = 'Start'
                 this.playing = false;
             }
-        }
+        });
 
-        this.speed.onchange = (event) => {
+
+        speed.addEventListener('change', (event) => {
             this.animate.setSpeed(event.target.value);
-        }
+        });
 
-        this.size.onchange = (event) => {
+        size.addEventListener('change', (event) => {
             this.animate.setSize(event.target.value);
-        }
+        });
 
-        this.color.addEventListener("input", (event) => {
+        color.addEventListener('input', (event) => {
             this.animate.setColor(event.target.value);
         }, false);
 
-        this.clear.addEventListener("click", () => {
+        clear.addEventListener('click', () => {
             this.animate.clear();
         }, false);
     }

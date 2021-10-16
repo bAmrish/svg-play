@@ -4,7 +4,7 @@ export class Point {
     x = 0;
     y = 0;
     radius = 1;
-    circle = null;
+    #circle = null;
     options = {
         fill: 'black',
         stroke: 'black',
@@ -16,11 +16,11 @@ export class Point {
         this.y = y;
         this.options.fill = color;
         this.options.stroke = color;
-        this.circle = new Circle(this.x, this.y, this.radius, this.options);
+        this.#circle = new Circle(this.x, this.y, this.radius, this.options);
     }
 
     draw(svg) {
-        svg.appendChild(this.circle.getNode());
+        svg.appendChild(this.#circle.getNode());
     }
 
     color(val) {
@@ -29,6 +29,10 @@ export class Point {
         }
         this.options.fill = val;
         this.options.stroke = val;
-        this.circle.options(this.options);
+        this.#circle.options(this.options);
+    }
+
+    getNode() {
+        return this.#circle.getNode();
     }
 }
