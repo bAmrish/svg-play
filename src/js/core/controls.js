@@ -51,6 +51,7 @@ export class Controls {
         const colorLabel = getLabelFor(color);
         const clear = document.getElementById('clear');
         const randomColor = document.getElementById('random-color');
+        const stringMode = document.getElementById('string-mode');
 
         color.value = rgbToHex(this.animate.color);
 
@@ -63,6 +64,8 @@ export class Controls {
             color.disabled = true;
             addClass(colorLabel, 'disabled');
         }
+
+        stringMode.checked = this.animate.stringMode;
 
         play.addEventListener('click', () => {
             if (!this.playing) {
@@ -106,6 +109,10 @@ export class Controls {
             } else {
                 removeClass(colorLabel, 'disabled');
             }
-        })
+        });
+
+        stringMode.addEventListener('click', (event) => {
+            this.animate.setStringMode(event.target.checked);
+        });
     }
 }

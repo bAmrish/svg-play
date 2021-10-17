@@ -30,6 +30,7 @@ export class Animate {
     currentPath;
     color = 'black';
     paths = [];
+    stringMode = true;
 
     constructor(svg) {
         this.svg = svg;
@@ -79,9 +80,11 @@ export class Animate {
         }
 
         if (bounced) {
-            this.currentPath = new Path(c.x(), c.y(), this.color);
-            this.currentPath.draw(this.svg);
-            this.paths.push(this.currentPath);
+            if(!this.stringMode) {
+                this.currentPath = new Path(c.x(), c.y(), this.color);
+                this.currentPath.draw(this.svg);
+                this.paths.push(this.currentPath);
+            }
             if (this.randomColor) {
                 this.setColor(getRandomColor());
             }
@@ -123,12 +126,24 @@ export class Animate {
         this.currentPath.color(this.color);
     }
 
+    setStringMode(val) {
+        this.stringMode = !!val;
+    }
+
     clear() {
+        const currentPath = this.currentPath;
         this.paths.forEach((path => {
+            if(this.stringMode && path === this.currentPath) {
+                return;
+            }
             this.svg.removeChild(path.getNode());
             path = null;
         }));
-        this.paths = [];
+        if(this.stringMode) {
+            this.paths = [currentPath];
+        } else {
+            this.paths = [];
+        }
     }
 
     randomizeColor(val) {
