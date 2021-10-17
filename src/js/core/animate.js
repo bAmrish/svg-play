@@ -1,5 +1,5 @@
-import {Circle} from "./circle.js";
-import {Path} from "./path.js";
+import {Circle} from "../elements/circle.js";
+import {Path} from "../elements/path.js";
 
 // define default values
 const CIRCLE_RADIUS = 30;
@@ -99,7 +99,7 @@ export class Animate {
     stop() {
         clearInterval(this.interval);
     }
-    
+
     setXSpeed(val) {
         this.xSpeed = val;
     }
