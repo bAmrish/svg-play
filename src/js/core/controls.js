@@ -65,6 +65,8 @@ export class Controls {
         const clear = document.getElementById('clear');
         const randomColor = document.getElementById('random-color');
         const stringMode = document.getElementById('string-mode');
+        const capture = document.getElementById('capture');
+
         addClass(circle, 'movable');
         color.value = rgbToHex(this.animate.color);
 
@@ -135,6 +137,10 @@ export class Controls {
         window.addEventListener('resize', () => {
             this.animate.canvasResize();
         });
+
+        capture.addEventListener('click', () => {
+            this.capture();
+        });
     }
 
     setupMove() {
@@ -175,5 +181,22 @@ export class Controls {
                 moving = false;
             }
         })
+    }
+
+
+    async capture() {
+        const currentColor = this.animate.circle.color();
+        this.animate.circle.color('white');
+        const svgString = new XMLSerializer().serializeToString(this.animate.svg);
+        this.animate.circle.color(currentColor);
+        const dataUrl = 'data:image/svg+xml;base64,' + btoa(svgString);
+        const {x, y, width, height} = this.animate.svg.getBBox();
+        const image = new Image();
+        image.setAttribute('src', dataUrl);
+        image.setAttribute('width', (x + width).toString());
+        image.setAttribute('height', (y + height).toString());
+        const body = image.outerHTML;
+        const newWindow = window.open('');
+        newWindow.document.body.innerHTML = body;
     }
 }
