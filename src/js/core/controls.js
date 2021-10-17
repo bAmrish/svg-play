@@ -27,7 +27,6 @@ const getLabelFor = (input) => {
         const child = children[i];
         if (child.nodeName.toLowerCase() === 'label') {
             const forInput = child.getAttribute('for')
-            console.log(forInput);
             if (forInput === input.getAttribute('id') ||
                 forInput === input.getAttribute('name')) {
                 return child;
@@ -53,7 +52,6 @@ export class Controls {
         const randomColor = document.getElementById('random-color');
 
         color.value = rgbToHex(this.animate.color);
-
         speed.value = this.animate.speed;
         size.value = this.animate.r;
         randomColor.checked = this.animate.randomizeColor();
