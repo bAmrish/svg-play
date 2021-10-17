@@ -21,7 +21,7 @@ export class Animate {
     randomColor = true;
     svg = null;
     r = CIRCLE_RADIUS;
-    xSpeed = 2* SPEED;
+    xSpeed = SPEED;
     ySpeed = SPEED;
     xDirection = 1;
     yDirection = 1;
@@ -57,11 +57,11 @@ export class Animate {
 
     start() {
         this.interval = setInterval(() => {
-            this.moveCircle()
+            this.move()
         }, 1);
     }
 
-    moveCircle() {
+    move() {
         const c = this.circle;
         const xLowerLimit = this.r;
         const yLowerLimit = this.r;
@@ -80,7 +80,7 @@ export class Animate {
         }
 
         if (bounced) {
-            if(!this.stringMode) {
+            if (!this.stringMode) {
                 this.currentPath = new Path(c.x(), c.y(), this.color);
                 this.currentPath.draw(this.svg);
                 this.paths.push(this.currentPath);
@@ -99,13 +99,7 @@ export class Animate {
     stop() {
         clearInterval(this.interval);
     }
-
-    setSpeed(val) {
-        this.xSpeed = val;
-        this.ySpeed = val;
-        return this;
-    }
-
+    
     setXSpeed(val) {
         this.xSpeed = val;
     }
@@ -133,17 +127,34 @@ export class Animate {
     clear() {
         const currentPath = this.currentPath;
         this.paths.forEach((path => {
-            if(this.stringMode && path === this.currentPath) {
+            if (this.stringMode && path === this.currentPath) {
                 return;
             }
             this.svg.removeChild(path.getNode());
             path = null;
         }));
-        if(this.stringMode) {
+        if (this.stringMode) {
             this.paths = [currentPath];
         } else {
             this.paths = [];
         }
+    }
+
+    moveCircle(x, y) {
+        const xLowerLimit = this.r;
+        const yLowerLimit = this.r;
+        const xUpperLimit = this.svg.clientWidth - this.r - CIRCLE_X_START_OFFSET;
+        const yUpperLimit = this.svg.clientHeight - this.r - CIRCLE_Y_START_OFFSET;
+
+        if (x <= xLowerLimit || x >= xUpperLimit || y <= yLowerLimit || y >= yUpperLimit) {
+            return;
+        }
+
+        this.circle.x(x);
+        this.circle.y(y);
+        this.currentPath = new Path(x, y, this.color)
+        this.currentPath.draw(this.svg);
+        this.paths.push(this.currentPath);
     }
 
     randomizeColor(val) {

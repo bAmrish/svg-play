@@ -18,6 +18,10 @@
     border-radius: 5px;
 }
 
+.movable{
+    cursor: move;
+}
+
 #controls {
     display: flex;
     align-items: center;

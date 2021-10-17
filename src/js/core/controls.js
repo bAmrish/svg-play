@@ -13,11 +13,23 @@ const rgbToHex = (rgb) => {
 }
 
 const addClass = (element, className) => {
-    element.className += className;
+    if (element instanceof SVGElement) {
+        const classes = element.getAttribute('class') || '';
+        element.setAttribute('class', `${classes} ${className}`.trim());
+    } else {
+        element.className += className;
+    }
 }
 
 const removeClass = (element, className) => {
-    element.className = element.className.replace(className, "");
+    if (element instanceof SVGElement) {
+        let classes = element.getAttribute('class');
+        classes = classes.replace(className, "");
+        element.setAttribute('class', classes);
+    } else {
+        element.className = element.className.replace(className, "");
+    }
+
 }
 
 
@@ -43,6 +55,7 @@ export class Controls {
     }
 
     create() {
+        const circle = this.animate.circle.getNode();
         const play = document.getElementById('play');
         const xSpeed = document.getElementById('x-speed');
         const ySpeed = document.getElementById('y-speed');
@@ -52,7 +65,7 @@ export class Controls {
         const clear = document.getElementById('clear');
         const randomColor = document.getElementById('random-color');
         const stringMode = document.getElementById('string-mode');
-
+        addClass(circle, 'movable');
         color.value = rgbToHex(this.animate.color);
 
         xSpeed.value = this.animate.xSpeed;
@@ -72,10 +85,12 @@ export class Controls {
                 this.animate.start();
                 play.innerHTML = 'Pause'
                 this.playing = true;
+                removeClass(circle, 'movable');
             } else {
                 this.animate.stop();
                 play.innerHTML = 'Start'
                 this.playing = false;
+                addClass(circle, 'movable');
             }
         });
 
@@ -104,7 +119,7 @@ export class Controls {
             const randomized = event.target.checked
             this.animate.randomizeColor(randomized);
             color.disabled = !!randomized;
-            if(randomized) {
+            if (randomized) {
                 addClass(colorLabel, 'disabled');
             } else {
                 removeClass(colorLabel, 'disabled');
@@ -114,5 +129,51 @@ export class Controls {
         stringMode.addEventListener('click', (event) => {
             this.animate.setStringMode(event.target.checked);
         });
+
+        this.setupMove()
+    }
+
+    setupMove() {
+        const c = this.animate.circle;
+        const circle = c.getNode();
+        let moving = false;
+        let oX, oY;
+        circle.addEventListener('mousedown', (event) => {
+            if (this.playing) {
+                return;
+            }
+
+            oX = event.offsetX;
+            oY = event.offsetY;
+
+            moving = true;
+            console.log(`original = (${oX}, ${oY})`)
+        });
+
+        circle.addEventListener('mousemove', (event) => {
+            if (moving) {
+                const cX = event.offsetX;
+                const cY = event.offsetY;
+                const dx = cX - oX;
+                const dy = cY - oY;
+                const x = c.x() + dx;
+                const y = c.y() + dy;
+                this.animate.moveCircle(x, y);
+                oX = cX;
+                oY = cY;
+            }
+        })
+
+        circle.addEventListener('mouseup', () => {
+            if (moving) {
+                moving = false;
+            }
+        })
+
+        circle.addEventListener('mouseout', () => {
+            if (moving) {
+                moving = false;
+            }
+        })
     }
 }
