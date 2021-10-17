@@ -139,21 +139,17 @@ export class Controls {
         let moving = false;
         let oX, oY;
         circle.addEventListener('mousedown', (event) => {
-            if (this.playing) {
-                return;
-            }
+            if (this.playing) return;
 
-            oX = event.offsetX;
-            oY = event.offsetY;
-
+            oX = event.pageX;
+            oY = event.pageY;
             moving = true;
-            console.log(`original = (${oX}, ${oY})`)
         });
 
-        circle.addEventListener('mousemove', (event) => {
+        this.animate.svg.addEventListener('mousemove', (event) => {
             if (moving) {
-                const cX = event.offsetX;
-                const cY = event.offsetY;
+                const cX = event.pageX;
+                const cY = event.pageY;
                 const dx = cX - oX;
                 const dy = cY - oY;
                 const x = c.x() + dx;
@@ -164,14 +160,14 @@ export class Controls {
             }
         })
 
-        circle.addEventListener('mouseup', () => {
+        this.animate.svg.addEventListener('mouseup', () => {
             if (moving) {
                 moving = false;
             }
         })
 
-        circle.addEventListener('mouseout', () => {
-            if (moving) {
+        this.animate.svg.addEventListener('mouseleave', (event) => {
+            if (moving && event.target === this.animate.svg) {
                 moving = false;
             }
         })
