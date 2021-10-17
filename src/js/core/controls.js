@@ -44,7 +44,8 @@ export class Controls {
 
     create() {
         const play = document.getElementById('play');
-        const speed = document.getElementById('speed');
+        const xSpeed = document.getElementById('x-speed');
+        const ySpeed = document.getElementById('y-speed');
         const size = document.getElementById('size');
         const color = document.getElementById('color');
         const colorLabel = getLabelFor(color);
@@ -52,7 +53,10 @@ export class Controls {
         const randomColor = document.getElementById('random-color');
 
         color.value = rgbToHex(this.animate.color);
-        speed.value = this.animate.speed;
+
+        xSpeed.value = this.animate.xSpeed;
+        ySpeed.value = this.animate.ySpeed;
+
         size.value = this.animate.r;
         randomColor.checked = this.animate.randomizeColor();
         if (randomColor.checked) {
@@ -63,7 +67,7 @@ export class Controls {
         play.addEventListener('click', () => {
             if (!this.playing) {
                 this.animate.start();
-                play.innerHTML = 'Stop'
+                play.innerHTML = 'Pause'
                 this.playing = true;
             } else {
                 this.animate.stop();
@@ -73,8 +77,12 @@ export class Controls {
         });
 
 
-        speed.addEventListener('change', (event) => {
-            this.animate.setSpeed(event.target.value);
+        xSpeed.addEventListener('change', (event) => {
+            this.animate.setXSpeed(event.target.value);
+        });
+
+        ySpeed.addEventListener('change', (event) => {
+            this.animate.setYSpeed(event.target.value);
         });
 
         size.addEventListener('change', (event) => {

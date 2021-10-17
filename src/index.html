@@ -12,44 +12,51 @@
 <body style="text-align: center">
 <div class="main-container">
     <h1 class="heading">Bouncy Ball!</h1>
-    <div class="message">Click anywhere to start and stop the ball.</div>
     <svg id="canvas"></svg>
     <div id="controls" class="pure-form">
-        <button id="play" class="pure-button pure-button-primary">
+        <button id="play" class="control pure-button pure-button-primary">
             Start
         </button>
-        <div class="slider">
-            <label for="speed">Speed</label>
-            <input type="range" list="speed-ticks" id="speed" min="1" max="10"/>
-            <datalist id="speed-ticks">
-                <option value="1"></option>
-                <option value="2"></option>
-                <option value="3"></option>
-                <option value="4"></option>
-                <option value="5"></option>
-                <option value="6"></option>
-                <option value="7"></option>
-                <option value="8"></option>
-                <option value="9"></option>
-            </datalist>
+        <button id="clear" class="control pure-button">
+            Clear
+        </button>
+        <div class="control speed-sliders">
+            <label>Speeds</label>
+            <div class="control slider">
+                <label for="x-speed">X </label>
+                <input type="range" list="speed-ticks" id="x-speed" min="1" max="10"/>
+            </div>
+            <div class="control slider">
+                <label for="y-speed">Y </label>
+                <input type="range" list="speed-ticks" id="y-speed" min="1" max="10"/>
+            </div>
         </div>
-        <div class="slider">
+        <datalist id="speed-ticks">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </datalist>
+
+        <div class="control slider">
             <label for="size">Size</label>
             <input type="range" id="size" min="10" max="100"/>
         </div>
-        <div class="color-picker">
+        <div class="control color-picker">
             <label for="color">Color</label>
             <input type="color" id="color">
         </div>
-        <div class="checkbox">
+        <div class="control checkbox">
             <label for="random-color" class="pure-checkbox">
                 <input type="checkbox" id="random-color">
                 Random on Bounce
             </label>
         </div>
-        <button id="clear" class="pure-button">
-            Clear
-        </button>
     </div>
 </div>
 </body>

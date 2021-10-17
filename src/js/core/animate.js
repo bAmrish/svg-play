@@ -21,7 +21,8 @@ export class Animate {
     randomColor = true;
     svg = null;
     r = CIRCLE_RADIUS;
-    speed = SPEED;
+    xSpeed = 2* SPEED;
+    ySpeed = SPEED;
     xDirection = 1;
     yDirection = 1;
     interval = 0;
@@ -86,8 +87,8 @@ export class Animate {
             }
         }
 
-        c.x(c.x() + this.speed * this.xDirection)
-        c.y(c.y() + this.speed * this.yDirection)
+        c.x(c.x() + this.xSpeed * this.xDirection)
+        c.y(c.y() + this.ySpeed * this.yDirection)
 
         this.currentPath.to(c.x(), c.y());
     }
@@ -97,8 +98,17 @@ export class Animate {
     }
 
     setSpeed(val) {
-        this.speed = val;
+        this.xSpeed = val;
+        this.ySpeed = val;
         return this;
+    }
+
+    setXSpeed(val) {
+        this.xSpeed = val;
+    }
+
+    setYSpeed(val) {
+        this.ySpeed = val;
     }
 
     setSize(val) {
