@@ -2,9 +2,12 @@ const rgbToHex = (rgb) => {
     const pattern = /^rgb\((\d+), (\d+), (\d+)\)/;
     const matches = rgb.match(pattern);
     if (matches.length === 4) {
-        const r = parseInt(matches[1], 10).toString(16);
-        const g = parseInt(matches[2], 10).toString(16);
-        const b = parseInt(matches[3], 10).toString(16);
+        let r = parseInt(matches[1], 10).toString(16);
+        let g = parseInt(matches[2], 10).toString(16);
+        let b = parseInt(matches[3], 10).toString(16);
+        r = r.length === 1 ? '0' + r : r;
+        g = g.length === 1 ? '0' + g : g;
+        b = b.length === 1 ? '0' + b : b;
         return `#${r}${g}${b}`;
     }
 }
