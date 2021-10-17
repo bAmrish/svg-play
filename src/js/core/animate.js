@@ -166,4 +166,20 @@ export class Animate {
         return this;
     }
 
+    canvasResize() {
+        const x = this.circle.x();
+        const y = this.circle.y();
+
+        const xUpperLimit = this.svg.clientWidth - this.r - CIRCLE_X_START_OFFSET;
+        const yUpperLimit = this.svg.clientHeight - this.r - CIRCLE_Y_START_OFFSET;
+
+        if (x >= xUpperLimit) {
+            this.circle.x(xUpperLimit - 1);
+        }
+
+        if (y >= yUpperLimit) {
+            this.circle.y(yUpperLimit - 1);
+        }
+    }
+
 }

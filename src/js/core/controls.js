@@ -131,6 +131,10 @@ export class Controls {
         });
 
         this.setupMove()
+
+        window.addEventListener('resize', () => {
+            this.animate.canvasResize();
+        });
     }
 
     setupMove() {
