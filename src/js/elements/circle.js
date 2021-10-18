@@ -17,19 +17,19 @@ export class Circle {
         this.cy = y;
         this.r = radius;
         Object.assign(this.options, opts);
-        this.#create();
+        this.create();
     }
 
-    #create() {
+    create() {
         this.node = document.createElementNS(SVG_NS, "circle");
         this.node.setAttribute("cx", this.cx);
         this.node.setAttribute("cy", this.cy);
         this.node.setAttribute("r", this.r);
-        this.#applyOptions();
+        this.applyOptions();
         return this.node;
     }
 
-    #applyOptions() {
+    applyOptions() {
         this.node.setAttribute("fill", this.options.fill);
         this.node.setAttribute("stroke", this.options.stroke);
         this.node.setAttribute("strokeWidth", this.options.strokeWidth);
@@ -76,7 +76,7 @@ export class Circle {
             stroke: this.fill,
             strokeWidth: 1
         }
-        this.#applyOptions();
+        this.applyOptions();
         return this;
     }
 
@@ -85,7 +85,7 @@ export class Circle {
             return this.options;
         }
         Object.assign(this.options, val || {});
-        this.#applyOptions();
+        this.applyOptions();
     }
 
     toString() {

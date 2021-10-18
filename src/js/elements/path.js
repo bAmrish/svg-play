@@ -6,10 +6,10 @@ export class Path {
         this.x = x;
         this.y = y;
         this.stroke = color;
-        this.#create();
+        this.create();
     }
 
-    #create() {
+    create() {
         this.node = document.createElementNS(SVG_NS, "path");
         this.node.setAttribute('d', `M ${this.x} ${this.y}`);
         this.node.setAttribute('stroke', this.stroke);
