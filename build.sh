@@ -1,4 +1,4 @@
-BUILD_DIR="public1"
+BUILD_DIR="public"
 if [[ ! -d "$BUILD_DIR" ]]; then
   echo \'$BUILD_DIR\' does not exist. Creating build directory.
   mkdir $BUILD_DIR
