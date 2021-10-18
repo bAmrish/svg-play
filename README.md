@@ -5,6 +5,8 @@
 This is a silly little controlled animation of a bouncing ball. It creates a pattern as it traces its own path.
 There are a few controls available to modify the path and angle of bounce.
 
+You can try me on [svg-play.web.app](https://svg-play.web.app)
+
 
 ### But... Why?
 As I was "looking into" (really going through some SVG documentation), I wanted to prototype something to understand it features. One thing led to another and this (whatever you decide to call it) was created. It turned out that my daughters liked to play with it (for reasons I cannot fathom), so why not release this (monstrosity?) over to the world. What harm can it do?
