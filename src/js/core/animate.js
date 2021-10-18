@@ -30,7 +30,7 @@ export class Animate {
     currentPath;
     color = 'black';
     paths = [];
-    stringMode = true;
+    stringMode = false;
 
     constructor(svg) {
         this.svg = svg;

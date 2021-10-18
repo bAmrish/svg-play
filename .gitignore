@@ -2,3 +2,4 @@
 *.iml
 .firebase/
 public/
+*.log
