@@ -18,7 +18,7 @@
     border-radius: 5px;
 }
 
-.movable{
+.movable {
     cursor: move;
 }
 
@@ -32,6 +32,7 @@
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 #controls .slider {
@@ -40,7 +41,7 @@
     flex-wrap: wrap;
 }
 
-#controls .slider  label{
+#controls .slider label {
     padding: 0 20px;
 }
 
@@ -49,9 +50,10 @@
     flex-direction: column;
 }
 
-#controls .slider  input{
+#controls .slider input {
     margin-top: -1px;
 }
+
 #controls .color-picker {
     margin-left: 20px;
 }
@@ -68,7 +70,18 @@
     margin-left: 20px;
 }
 
-label.disabled{
+label.disabled {
     cursor: not-allowed;
     color: #cad2d3;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    border-top: 1px solid #d1d1d1
+}
+
+.github-fork-ribbon a {
+    text-decoration: none;
 }

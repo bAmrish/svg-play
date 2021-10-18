@@ -1,72 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SVG Play</title>
-    <script src="js/main.js" type="module"></script>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
-          integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/main.css">
-</head>
-<body style="text-align: center">
-<div class="main-container">
-    <h1 class="heading">Bouncy Ball!</h1>
-    <svg id="canvas"></svg>
-    <div id="controls" class="pure-form">
-        <button id="play" class="control pure-button pure-button-primary">
-            Start
-        </button>
-        <button id="clear" class="control pure-button">
-            Clear
-        </button>
-        <div class="control speed-sliders">
-            <label>Speeds</label>
-            <div class="control slider">
-                <label for="x-speed">X </label>
-                <input type="range" list="speed-ticks" id="x-speed" min="1" max="10"/>
-            </div>
-            <div class="control slider">
-                <label for="y-speed">Y </label>
-                <input type="range" list="speed-ticks" id="y-speed" min="1" max="10"/>
-            </div>
-        </div>
-        <datalist id="speed-ticks">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-        </datalist>
+    <head>
+        <meta charset="UTF-8">
+        <title>SVG Play</title>
+        <script src="js/main.js" type="module"></script>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+              integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body style="text-align: center">
+        <div class="main-container">
+            <h1 class="heading">Bouncy Ball!</h1>
+            <svg id="canvas"></svg>
+            <div id="controls" class="pure-form">
+                <button id="play" class="control pure-button pure-button-primary">
+                    Start
+                </button>
+                <button id="clear" class="control pure-button">
+                    Clear
+                </button>
+                <div class="control speed-sliders">
+                    <label>Speeds</label>
+                    <div class="control slider">
+                        <label for="x-speed">X </label>
+                        <input type="range" list="speed-ticks" id="x-speed" min="1" max="10"/>
+                    </div>
+                    <div class="control slider">
+                        <label for="y-speed">Y </label>
+                        <input type="range" list="speed-ticks" id="y-speed" min="1" max="10"/>
+                    </div>
+                </div>
+                <datalist id="speed-ticks">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </datalist>
 
-        <div class="control slider">
-            <label for="size">Size</label>
-            <input type="range" id="size" min="10" max="100"/>
+                <div class="control slider">
+                    <label for="size">Size</label>
+                    <input type="range" id="size" min="10" max="100"/>
+                </div>
+                <div class="control color-picker">
+                    <label for="color">Color</label>
+                    <input type="color" id="color">
+                </div>
+                <div class="control checkbox">
+                    <label for="random-color" class="pure-checkbox">
+                        <input type="checkbox" id="random-color">
+                        Random on Bounce
+                    </label>
+                </div>
+                <div class="control checkbox">
+                    <label for="string-mode" class="pure-checkbox">
+                        <input type="checkbox" id="string-mode">
+                        String Mode
+                    </label>
+                </div>
+                <button id="capture" class="control pure-button">
+                    Capture
+                </button>
+            </div>
         </div>
-        <div class="control color-picker">
-            <label for="color">Color</label>
-            <input type="color" id="color">
+        <div class="footer">
+            <div id="copy"><div>&copy; Amrish Bharatiya.</div>
+            </div>
+            <div>
+                <a href="https://twitter.com/bamrish?ref_src=twsrc%5Etfw"
+                   class="twitter-follow-button" data-show-count="false">Follow @bamrish
+                </a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div>
+                <div class="github-fork-ribbon">
+                    <a href="https://github.com/bAmrish/svg-play">Fork me on Github</a></div>
+            </div>
         </div>
-        <div class="control checkbox">
-            <label for="random-color" class="pure-checkbox">
-                <input type="checkbox" id="random-color">
-                Random on Bounce
-            </label>
-        </div>
-        <div class="control checkbox">
-            <label for="string-mode" class="pure-checkbox">
-                <input type="checkbox" id="string-mode">
-                String Mode
-            </label>
-        </div>
-        <button id="capture" class="control pure-button">
-            Capture
-        </button>
-    </div>
-</div>
-</body>
+    </body>
 </html>
