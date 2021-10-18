@@ -7,7 +7,7 @@ There are a few controls available to modify the path and angle of bounce.
 
 
 ### But... Why?
-As I was "looking into" (really going through some SVG documentation), I wanted to prototype something to understand it features. One thing led to another and this (whatever you decide to call it) was created. It turned out that my daughters liked to play with it (for reasons I cannot fathom), so though why not release this (monstrosity?) over to the world. What harm can it do?
+As I was "looking into" (really going through some SVG documentation), I wanted to prototype something to understand it features. One thing led to another and this (whatever you decide to call it) was created. It turned out that my daughters liked to play with it (for reasons I cannot fathom), so why not release this (monstrosity?) over to the world. What harm can it do?
 
 
 ### And... How?
